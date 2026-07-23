@@ -1,0 +1,21 @@
+{
+  "name": "skyra-ai",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "SKYRA AI — sovereign orchestration platform for photorealistic AI image and video production.",
+  "workspaces": [
+    "packages/*",
+    "services/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace @skyra/orchestrator",
+    "build": "npm run build --workspace @skyra/orchestrator",
+    "typecheck": "tsc -p services/orchestrator/tsconfig.json --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "26.1.1",
+    "tsx": "4.23.1",
+    "typescript": "7.0.2"
+  }
+}

@@ -1,123 +1,60 @@
-import {
-  ProductionEngine,
-} from "./workflows/production/production-engine.js";
 import "dotenv/config";
 
-import {
-  AIProviderRouter,
-} from "@skyra/ai/router";
+import { AIProviderRouter } from "@skyra/ai/router";
+import { DevelopmentAIProvider } from "@skyra/ai/development-provider";
+import { OpenAIProvider } from "@skyra/ai/openai-provider";
 
-import {
-  DevelopmentAIProvider,
-} from "@skyra/ai/development-provider";
+import { AIDirector } from "./director/ai-director.js";
+import { ProductionEngine } from "./workflows/production/production-engine.js";
 
-import {
-  AIDirector,
-} from "./director/ai-director.js";
+// --- Wire up the available AI providers ---------------------------------
+const router = new AIProviderRouter();
 
-const router =
-  new AIProviderRouter();
+// "local" always works offline, with no API key.
+router.register("local", new DevelopmentAIProvider());
 
-const developmentProvider =
-  new DevelopmentAIProvider();
+// "openai" is registered only when a key is present.
+if (process.env.OPENAI_API_KEY) {
+  router.register("openai", new OpenAIProvider(process.env.OPENAI_API_KEY));
+}
 
-router.register(
-  "local",
-  developmentProvider
-);
+const director = new AIDirector(router);
+const productionEngine = new ProductionEngine();
 
-const director =
-  new AIDirector(router);
-
+// --- Demo brief ----------------------------------------------------------
 const userRequest = `
-Create a 30-second premium
-cinematic advertisement for YUNEX.
+Create a 30-second premium cinematic advertisement for YUNEX.
 
-YUNEX is a global economic and
-commerce ecosystem connecting
-African businesses with
-international markets.
+YUNEX is a global economic and commerce ecosystem connecting African
+businesses with international markets.
 
 Show:
-
-1. An African entrepreneur
-   starting a business.
-
+1. An African entrepreneur starting a business.
 2. International trade.
-
-3. Global commerce connecting
-   Africa with the world.
-
+3. Global commerce connecting Africa with the world.
 4. A professional human presenter.
-
 5. A powerful final call to action.
 
-The video should be realistic,
-premium, cinematic and futuristic.
-
-Target audience:
-African entrepreneurs and
-global businesses.
-
-Language:
-English.
-
+The video should be realistic, premium, cinematic and futuristic.
+Target audience: African entrepreneurs and global businesses.
+Language: English.
 Create both 16:9 and 9:16 versions.
-`;
+`.trim();
 
-console.log(
-  "\n================================"
-);
-
-console.log(
-  "       SKYRA AI DIRECTOR"
-);
-
-console.log(
-  "================================\n"
-);
+console.log("\n================================");
+console.log("       SKYRA AI DIRECTOR");
+console.log("================================\n");
 
 try {
-  const plan =
-    await director.createPlan(
-      userRequest
-    );
-const productionEngine =
-  new ProductionEngine();
+  const plan = await director.createPlan(userRequest);
+  const productionResult = await productionEngine.execute(plan);
 
-const productionResult =
-  await productionEngine.execute(
-    plan
-  );
+  console.log("\nSKYRA PRODUCTION PLAN\n");
+  console.log(JSON.stringify(plan, null, 2));
 
-console.log(
-  "\nSKYRA PRODUCTION RESULT\n"
-);
-
-console.log(
-  JSON.stringify(
-    productionResult,
-    null,
-    2
-  )
-);
-  console.log(
-    "\nSKYRA PRODUCTION PLAN\n"
-  );
-
-  console.log(
-    JSON.stringify(
-      plan,
-      null,
-      2
-    )
-  );
-
+  console.log("\nSKYRA PRODUCTION RESULT\n");
+  console.log(JSON.stringify(productionResult, null, 2));
 } catch (error) {
-  console.error(
-    "\nSKYRA AI ERROR:\n",
-    error
-  );
-
+  console.error("\nSKYRA AI ERROR:\n", error);
   process.exit(1);
 }

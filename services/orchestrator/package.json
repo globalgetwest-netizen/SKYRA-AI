@@ -1,1 +1,18 @@
-{"name":"@skyra/orchestrator","version":"0.1.0","private":true,"type":"module","scripts":{"dev":"node src/index.ts","build":"tsc","start":"node dist/index.js"},"dependencies":{"@skyra/ai":"file:../../packages/ai","@skyra/types":"file:../../packages/types","dotenv":"^17.4.2","typescript":"latest","zod":"latest"},"devDependencies":{"@types/node":"^26.1.1","esbuild":"^0.28.1","tsx":"^4.23.1"}}
+{
+  "name": "@skyra/orchestrator",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@skyra/ai": "*",
+    "@skyra/types": "*",
+    "dotenv": "17.4.2",
+    "zod": "4.4.3"
+  }
+}

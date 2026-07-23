@@ -15,9 +15,6 @@
     "test": "echo \"No tests configured yet\""
   },
   "dependencies": {
-    "openai": "^6.48.0"
-  },
-  "devDependencies": {
-    "typescript": "^7.0.2"
+    "openai": "6.48.0"
   }
 }

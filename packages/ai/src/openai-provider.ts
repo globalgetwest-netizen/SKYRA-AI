@@ -4,7 +4,7 @@ import type {
   AIProvider,
   AIRequest,
   AIResponse,
-} from "./provider";
+} from "./provider.js";
 
 export class OpenAIProvider
   implements AIProvider

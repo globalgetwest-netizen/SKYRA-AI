@@ -1,4 +1,4 @@
-﻿export interface AIMessage {
+export interface AIMessage {
   role: "system" | "user" | "assistant";
   content: string;
 }
@@ -22,7 +22,5 @@ export interface AIResponse {
 }
 
 export interface AIProvider {
-  generate(
-    request: AIRequest
-  ): Promise<AIResponse>;
+  generate(request: AIRequest): Promise<AIResponse>;
 }
