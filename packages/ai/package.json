@@ -9,7 +9,11 @@
     "./provider": "./src/provider.ts",
     "./router": "./src/router.ts",
     "./development-provider": "./src/development-provider.ts",
-    "./openai-provider": "./src/openai-provider.ts"
+    "./openai-provider": "./src/openai-provider.ts",
+    "./image-provider": "./src/image-provider.ts",
+    "./mock-image-provider": "./src/mock-image-provider.ts",
+    "./openai-image-provider": "./src/openai-image-provider.ts",
+    "./replicate-image-provider": "./src/replicate-image-provider.ts"
   },
   "scripts": {
     "test": "echo \"No tests configured yet\""

@@ -27,10 +27,11 @@ never by rewriting the platform.
 | AI provider layer | ✅ generic router + `local` (offline) and `openai` providers |
 | **AI Director → real plan** | ✅ produces a **validated, populated** plan (scenes, characters, audio) |
 | Production Engine | ✅ iterates real scenes (dry-run; asset generation is the next layer) |
-| Image generation | ⏳ not yet wired |
+| **Image generation** | ✅ per-scene stills written to disk (`mock` offline; `openai` / `replicate` real) |
 | Video / voice / lip-sync | ⏳ not yet wired |
 
-Runs fully offline with **no API keys** via the `local` development provider.
+Runs fully offline with **no API keys**: the `local` planner writes a complete
+plan and the `mock` image engine writes real viewable placeholder images.
 
 ## Quickstart
 
@@ -41,9 +42,25 @@ npm run typecheck  # strict TypeScript, no errors
 ```
 
 `npm run dev` prints a complete `ProductionPlan` (4 populated scenes for the
-demo brief) and the production result.
+demo brief), generates a still for each scene that needs one, and writes the
+files under `storage/output/<projectId>/`.
 
-## Use a real model
+## Generate real photoreal images
+
+```bash
+cp .env.example .env
+# Fastest if you already have an OpenAI key:
+SKYRA_IMAGE_PROVIDER=openai
+OPENAI_API_KEY=sk-...
+# Best photoreal humans (FLUX):
+# SKYRA_IMAGE_PROVIDER=replicate
+# REPLICATE_API_TOKEN=r8_...
+```
+
+Then `npm run dev` — each scene's `visualPrompt` is sent to the engine and the
+resulting image is saved. No code changes; the engine is chosen by env.
+
+## Use a real model for planning
 
 ```bash
 cp .env.example .env
@@ -97,7 +114,7 @@ services/
 ## Roadmap
 
 **Generation layer (the real gap to close)**
-- [ ] Image engine adapter (photoreal stills) behind an `ImageProvider`
+- [x] Image engine adapter (photoreal stills) behind an `ImageProvider`
 - [ ] Video engine adapter (text/image-to-video) behind a `VideoProvider`
 - [ ] Voice / TTS + accurate lip-sync for the avatar scenes
 - [ ] Music & sound design
