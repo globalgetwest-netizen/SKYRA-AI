@@ -1,4 +1,14 @@
-import "dotenv/config";
+import { fileURLToPath } from "node:url";
+import { dirname, resolve } from "node:path";
+import dotenv from "dotenv";
+
+// Load .env from the repo root first (this service runs from its own workspace
+// directory, so a plain dotenv/config would miss the root file), then fall back
+// to any .env in the current working directory. dotenv never overrides a value
+// that is already set, so the root file wins.
+const here = dirname(fileURLToPath(import.meta.url));
+dotenv.config({ path: resolve(here, "../../../.env") });
+dotenv.config();
 
 import { AIProviderRouter } from "@skyra/ai/router";
 import { DevelopmentAIProvider } from "@skyra/ai/development-provider";
