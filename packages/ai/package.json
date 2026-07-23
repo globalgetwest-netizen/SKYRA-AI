@@ -10,10 +10,13 @@
     "./router": "./src/router.ts",
     "./development-provider": "./src/development-provider.ts",
     "./openai-provider": "./src/openai-provider.ts",
+    "./gemini-provider": "./src/gemini-provider.ts",
     "./image-provider": "./src/image-provider.ts",
     "./mock-image-provider": "./src/mock-image-provider.ts",
     "./openai-image-provider": "./src/openai-image-provider.ts",
-    "./replicate-image-provider": "./src/replicate-image-provider.ts"
+    "./replicate-image-provider": "./src/replicate-image-provider.ts",
+    "./huggingface-image-provider": "./src/huggingface-image-provider.ts",
+    "./gemini-image-provider": "./src/gemini-image-provider.ts"
   },
   "scripts": {
     "test": "echo \"No tests configured yet\""

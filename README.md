@@ -24,10 +24,10 @@ never by rewriting the platform.
 |-------|-------|
 | Monorepo + workspaces | ✅ clean, installs from a single root |
 | Types & schemas (Zod) | ✅ full `ProductionPlan` contract |
-| AI provider layer | ✅ generic router + `local` (offline) and `openai` providers |
+| AI provider layer | ✅ generic router: `local` (offline), `gemini` (free), `openai` |
 | **AI Director → real plan** | ✅ produces a **validated, populated** plan (scenes, characters, audio) |
-| Production Engine | ✅ iterates real scenes (dry-run; asset generation is the next layer) |
-| **Image generation** | ✅ per-scene stills written to disk (`mock` offline; `openai` / `replicate` real) |
+| Production Engine | ✅ iterates real scenes and generates their stills |
+| **Image generation** | ✅ `mock` (offline) · `huggingface`/FLUX & `gemini` (free) · `openai`/`replicate` (paid) |
 | Video / voice / lip-sync | ⏳ not yet wired |
 
 Runs fully offline with **no API keys**: the `local` planner writes a complete
@@ -45,22 +45,42 @@ npm run typecheck  # strict TypeScript, no errors
 demo brief), generates a still for each scene that needs one, and writes the
 files under `storage/output/<projectId>/`.
 
-## Generate real photoreal images
+## Generate real images — free options first
 
 ```bash
 cp .env.example .env
-# Fastest if you already have an OpenAI key:
-SKYRA_IMAGE_PROVIDER=openai
-OPENAI_API_KEY=sk-...
-# Best photoreal humans (FLUX):
-# SKYRA_IMAGE_PROVIDER=replicate
-# REPLICATE_API_TOKEN=r8_...
+```
+
+**Free (recommended to start):**
+```bash
+# Hugging Face + FLUX.1-schnell (free token: huggingface.co/settings/tokens)
+SKYRA_IMAGE_PROVIDER=huggingface
+HUGGINGFACE_API_TOKEN=hf_...
+
+# or Google Gemini images (free key: aistudio.google.com/apikey)
+# SKYRA_IMAGE_PROVIDER=gemini
+# GEMINI_API_KEY=...
+```
+
+**Paid (higher quality / throughput):**
+```bash
+# SKYRA_IMAGE_PROVIDER=openai      # OPENAI_API_KEY=sk-...
+# SKYRA_IMAGE_PROVIDER=replicate   # REPLICATE_API_TOKEN=r8_...  (FLUX 1.1 pro)
 ```
 
 Then `npm run dev` — each scene's `visualPrompt` is sent to the engine and the
 resulting image is saved. No code changes; the engine is chosen by env.
 
-## Use a real model for planning
+## Planning with a real model (free)
+
+```bash
+# Google Gemini free tier plans the production
+SKYRA_AI_PROVIDER=gemini
+SKYRA_AI_MODEL=gemini-2.0-flash
+GEMINI_API_KEY=...
+```
+
+## Use a paid model for planning
 
 ```bash
 cp .env.example .env

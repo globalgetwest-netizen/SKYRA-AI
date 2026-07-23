@@ -3,6 +3,7 @@ import "dotenv/config";
 import { AIProviderRouter } from "@skyra/ai/router";
 import { DevelopmentAIProvider } from "@skyra/ai/development-provider";
 import { OpenAIProvider } from "@skyra/ai/openai-provider";
+import { GeminiProvider } from "@skyra/ai/gemini-provider";
 
 import { AIDirector } from "./director/ai-director.js";
 import { ProductionEngine } from "./workflows/production/production-engine.js";
@@ -16,6 +17,12 @@ router.register("local", new DevelopmentAIProvider());
 // "openai" is registered only when a key is present.
 if (process.env.OPENAI_API_KEY) {
   router.register("openai", new OpenAIProvider(process.env.OPENAI_API_KEY));
+}
+
+// "gemini" — free tier; registered when a key is present.
+const geminiKey = process.env.GEMINI_API_KEY ?? process.env.GOOGLE_API_KEY;
+if (geminiKey) {
+  router.register("gemini", new GeminiProvider(geminiKey, process.env.SKYRA_AI_MODEL ?? "gemini-2.0-flash"));
 }
 
 const director = new AIDirector(router);
