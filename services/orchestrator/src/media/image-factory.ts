@@ -4,18 +4,20 @@ import {
   ReplicateImageProvider,
   HuggingFaceImageProvider,
   GeminiImageProvider,
+  PollinationsImageProvider,
   type ImageProvider,
 } from "@skyra/ai";
 
 /**
  * Resolve the configured image engine from the environment.
  *
- *   SKYRA_IMAGE_PROVIDER = mock | huggingface | gemini | openai | replicate
- *                          (default: mock)
+ *   SKYRA_IMAGE_PROVIDER = mock | pollinations | huggingface | gemini
+ *                        | openai | replicate            (default: mock)
  *
- * `mock` needs no key and produces viewable placeholder images, so the full
- * pipeline runs at zero cost. `huggingface` (FLUX.1-schnell) and `gemini` are
- * the near-free real engines; `openai` and `replicate` are paid.
+ * `mock` needs no key and writes placeholder images. `pollinations` is a real
+ * engine that needs NO key at all — the easiest way to real images.
+ * `huggingface` (FLUX.1-schnell) and `gemini` are near-free with a free key;
+ * `openai` and `replicate` are paid.
  */
 export function getImageProvider(): ImageProvider {
   const name = (process.env.SKYRA_IMAGE_PROVIDER ?? "mock").toLowerCase();
@@ -23,6 +25,9 @@ export function getImageProvider(): ImageProvider {
   switch (name) {
     case "mock":
       return new MockImageProvider();
+
+    case "pollinations":
+      return new PollinationsImageProvider(process.env.SKYRA_IMAGE_MODEL ?? "flux");
 
     case "huggingface":
     case "hf": {
@@ -60,7 +65,8 @@ export function getImageProvider(): ImageProvider {
 
     default:
       throw new Error(
-        `Unknown SKYRA_IMAGE_PROVIDER: "${name}" (expected mock | huggingface | gemini | openai | replicate).`,
+        `Unknown SKYRA_IMAGE_PROVIDER: "${name}" ` +
+          `(expected mock | pollinations | huggingface | gemini | openai | replicate).`,
       );
   }
 }

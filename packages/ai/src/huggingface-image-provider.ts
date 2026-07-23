@@ -39,7 +39,7 @@ export class HuggingFaceImageProvider implements ImageProvider {
 
     // The model may be cold; retry a few times while it loads (HTTP 503).
     for (let attempt = 0; attempt < 4; attempt++) {
-      const res = await fetch(`https://api-inference.huggingface.co/models/${this.model}`, {
+      const res = await fetch(`https://router.huggingface.co/hf-inference/models/${this.model}`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${this.token}`,
