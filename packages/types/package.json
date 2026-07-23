@@ -1,0 +1,15 @@
+{
+  "name": "@skyra/types",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/production.ts",
+  "types": "./src/production.ts",
+  "exports": {
+    ".": "./src/production.ts",
+    "./production": "./src/production.ts"
+  },
+  "dependencies": {
+    "zod": "latest"
+  }
+}
