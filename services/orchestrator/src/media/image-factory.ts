@@ -84,7 +84,7 @@ function buildProvider(name: string, single: boolean): ImageProvider {
       if (!key) throw new Error("GEMINI_API_KEY not set");
       return new GeminiImageProvider(
         key,
-        process.env.SKYRA_GEMINI_MODEL ?? global ?? "gemini-2.5-flash-image-preview",
+        process.env.SKYRA_GEMINI_MODEL ?? global ?? "gemini-2.5-flash-image",
       );
     }
 
