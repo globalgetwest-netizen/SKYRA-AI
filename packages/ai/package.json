@@ -17,7 +17,8 @@
     "./replicate-image-provider": "./src/replicate-image-provider.ts",
     "./huggingface-image-provider": "./src/huggingface-image-provider.ts",
     "./gemini-image-provider": "./src/gemini-image-provider.ts",
-    "./pollinations-image-provider": "./src/pollinations-image-provider.ts"
+    "./pollinations-image-provider": "./src/pollinations-image-provider.ts",
+    "./fallback-image-provider": "./src/fallback-image-provider.ts"
   },
   "scripts": {
     "test": "echo \"No tests configured yet\""

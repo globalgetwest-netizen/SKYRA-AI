@@ -10,3 +10,4 @@ export * from "./replicate-image-provider.js";
 export * from "./huggingface-image-provider.js";
 export * from "./gemini-image-provider.js";
 export * from "./pollinations-image-provider.js";
+export * from "./fallback-image-provider.js";
