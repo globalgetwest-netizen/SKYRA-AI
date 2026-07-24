@@ -3,6 +3,7 @@ import type {
   AIRequest,
   AIResponse,
 } from "./provider.js";
+import { fetchWithRetry } from "./http-retry.js";
 
 const API_BASE = "https://generativelanguage.googleapis.com/v1beta";
 
@@ -57,13 +58,9 @@ export class GeminiProvider implements AIProvider {
 
     const model = request.options?.model ?? this.model;
 
-    const res = await fetch(
+    const res = await fetchWithRetry(
       `${API_BASE}/models/${model}:generateContent?key=${this.apiKey}`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      },
+      { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) },
     );
 
     if (!res.ok) {

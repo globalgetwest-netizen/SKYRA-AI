@@ -79,6 +79,7 @@ try {
   console.log("\nSKYRA PRODUCTION RESULT\n");
   console.log(JSON.stringify(productionResult, null, 2));
 } catch (error) {
-  console.error("\nSKYRA AI ERROR:\n", error);
-  process.exit(1);
+  const message = error instanceof Error ? error.message : String(error);
+  console.error(`\nSKYRA AI ERROR: ${message}\n`);
+  process.exitCode = 1;
 }

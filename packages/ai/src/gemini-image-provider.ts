@@ -3,6 +3,7 @@ import type {
   ImageGenerationRequest,
   ImageProvider,
 } from "./image-provider.js";
+import { fetchWithRetry } from "./http-retry.js";
 
 const API_BASE = "https://generativelanguage.googleapis.com/v1beta";
 
@@ -62,7 +63,7 @@ export class GeminiImageProvider implements ImageProvider {
       },
     };
 
-    const res = await fetch(`${API_BASE}/models/${this.model}:predict?key=${this.apiKey}`, {
+    const res = await fetchWithRetry(`${API_BASE}/models/${this.model}:predict?key=${this.apiKey}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
@@ -98,7 +99,7 @@ export class GeminiImageProvider implements ImageProvider {
       generationConfig: { responseModalities: ["TEXT", "IMAGE"] },
     };
 
-    const res = await fetch(`${API_BASE}/models/${this.model}:generateContent?key=${this.apiKey}`, {
+    const res = await fetchWithRetry(`${API_BASE}/models/${this.model}:generateContent?key=${this.apiKey}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),

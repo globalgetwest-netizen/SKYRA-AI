@@ -1,5 +1,6 @@
 export * from "./provider.js";
 export * from "./router.js";
+export * from "./http-retry.js";
 export * from "./openai-provider.js";
 export * from "./gemini-provider.js";
 export * from "./image-provider.js";
