@@ -16,7 +16,10 @@
     "./huggingface-image-provider": "./src/huggingface-image-provider.ts",
     "./gemini-image-provider": "./src/gemini-image-provider.ts",
     "./pollinations-image-provider": "./src/pollinations-image-provider.ts",
-    "./fallback-image-provider": "./src/fallback-image-provider.ts"
+    "./fallback-image-provider": "./src/fallback-image-provider.ts",
+    "./video-provider": "./src/video-provider.ts",
+    "./http-video-provider": "./src/http-video-provider.ts",
+    "./replicate-video-provider": "./src/replicate-video-provider.ts"
   },
   "scripts": {
     "test": "echo \"No tests configured yet\""

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" role="img" aria-label="SKYRA AI">
+  <defs>
+    <linearGradient id="skyra" x1="0.1" y1="0.95" x2="0.85" y2="0.1">
+      <stop offset="0" stop-color="#1e7bff"/>
+      <stop offset="0.5" stop-color="#3f57ff"/>
+      <stop offset="1" stop-color="#8b2fe6"/>
+    </linearGradient>
+  </defs>
+  <!-- Four-point sparkle with concave sides; vertical points elongated -->
+  <path d="M512 24
+           Q512 512 896 512
+           Q512 512 512 1000
+           Q512 512 128 512
+           Q512 512 512 24 Z"
+        fill="url(#skyra)"/>
+</svg>

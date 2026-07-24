@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="branding/skyra-logo.svg" width="120" alt="SKYRA AI" />
+</p>
+
 # SKYRA AI
 
 Sovereign orchestration platform for **photorealistic AI image and video
@@ -28,7 +32,8 @@ never by rewriting the platform.
 | **AI Director → real plan** | ✅ real model returns a **validated, populated** plan (no mock) |
 | Production Engine | ✅ iterates real scenes and generates their stills |
 | **Image generation** | ✅ `gemini`/Imagen & `huggingface`/FLUX (free) · `pollinations` (free, no key) · `openai`/`replicate` (paid) |
-| Video / voice / lip-sync | ⏳ not yet wired |
+| **Video generation** | ✅ `http` (free — Colab/own GPU, LTX-Video) · `replicate` (paid — Kling/Wan) — see [`colab/README.md`](colab/README.md) |
+| Voice / lip-sync / render | ⏳ not yet wired |
 
 Everything is **real** — there is no mock/placeholder path. You need at least a
 free Gemini key (planning), and images run best as a `gemini,pollinations`

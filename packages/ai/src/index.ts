@@ -10,3 +10,6 @@ export * from "./huggingface-image-provider.js";
 export * from "./gemini-image-provider.js";
 export * from "./pollinations-image-provider.js";
 export * from "./fallback-image-provider.js";
+export * from "./video-provider.js";
+export * from "./http-video-provider.js";
+export * from "./replicate-video-provider.js";
