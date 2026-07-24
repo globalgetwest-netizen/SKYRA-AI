@@ -55,9 +55,7 @@ export class GeminiProvider implements AIProvider {
       body.systemInstruction = { parts: [{ text: systemText }] };
     }
 
-    const model = request.options?.model && request.options.model !== "development"
-      ? request.options.model
-      : this.model;
+    const model = request.options?.model ?? this.model;
 
     const res = await fetch(
       `${API_BASE}/models/${model}:generateContent?key=${this.apiKey}`,

@@ -1,5 +1,4 @@
 import {
-  MockImageProvider,
   OpenAIImageProvider,
   ReplicateImageProvider,
   HuggingFaceImageProvider,
@@ -13,20 +12,19 @@ import {
  * Resolve the configured image engine(s) from the environment.
  *
  *   SKYRA_IMAGE_PROVIDER = one name, or a comma-separated fallback chain.
- *   Names: mock | pollinations | huggingface | gemini | openai | replicate
- *   (default: mock)
+ *   Names: pollinations | huggingface | gemini | openai | replicate
+ *   (default: gemini,pollinations)
  *
- * A chain like "gemini,huggingface,pollinations" tries each in order and falls
- * back to the next if one fails — best quality first, guaranteed to land on a
- * working engine. Engines whose keys are missing are skipped automatically, so
- * a chain still works with only the keys you have.
+ * A chain like "gemini,pollinations" tries each in order and falls back to the
+ * next if one fails — best quality first, guaranteed to land on a working
+ * engine. Engines whose keys are missing are skipped automatically, so a chain
+ * still works with only the keys you have.
  *
- * `mock` writes placeholder images (no key). `pollinations` is a real engine
- * that needs NO key. `huggingface`/`gemini` are near-free with a free key;
- * `openai`/`replicate` are paid.
+ * All engines are REAL (no mock). `pollinations` needs NO key; `huggingface`/
+ * `gemini` are near-free with a free key; `openai`/`replicate` are paid.
  */
 export function getImageProvider(): ImageProvider {
-  const raw = process.env.SKYRA_IMAGE_PROVIDER ?? "mock";
+  const raw = process.env.SKYRA_IMAGE_PROVIDER ?? "gemini,pollinations";
   const names = raw
     .split(",")
     .map((s) => s.trim().toLowerCase())
@@ -61,9 +59,6 @@ function buildProvider(name: string, single: boolean): ImageProvider {
   const global = single ? process.env.SKYRA_IMAGE_MODEL : undefined;
 
   switch (name) {
-    case "mock":
-      return new MockImageProvider();
-
     case "pollinations":
       return new PollinationsImageProvider(
         process.env.SKYRA_POLLINATIONS_MODEL ?? global ?? "flux",
@@ -108,7 +103,7 @@ function buildProvider(name: string, single: boolean): ImageProvider {
 
     default:
       throw new Error(
-        `unknown engine "${name}" (expected mock | pollinations | huggingface | gemini | openai | replicate)`,
+        `unknown engine "${name}" (expected pollinations | huggingface | gemini | openai | replicate)`,
       );
   }
 }

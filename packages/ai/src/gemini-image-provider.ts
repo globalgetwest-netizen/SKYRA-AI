@@ -95,7 +95,7 @@ export class GeminiImageProvider implements ImageProvider {
 
     const body = {
       contents: [{ role: "user", parts: [{ text: prompt }] }],
-      generationConfig: { responseModalities: ["IMAGE"] },
+      generationConfig: { responseModalities: ["TEXT", "IMAGE"] },
     };
 
     const res = await fetch(`${API_BASE}/models/${this.model}:generateContent?key=${this.apiKey}`, {

@@ -24,14 +24,15 @@ never by rewriting the platform.
 |-------|-------|
 | Monorepo + workspaces | ✅ clean, installs from a single root |
 | Types & schemas (Zod) | ✅ full `ProductionPlan` contract |
-| AI provider layer | ✅ generic router: `local` (offline), `gemini` (free), `openai` |
-| **AI Director → real plan** | ✅ produces a **validated, populated** plan (scenes, characters, audio) |
+| AI provider layer | ✅ generic router: `gemini` (free), `openai` — real models only |
+| **AI Director → real plan** | ✅ real model returns a **validated, populated** plan (no mock) |
 | Production Engine | ✅ iterates real scenes and generates their stills |
-| **Image generation** | ✅ `mock` (offline) · `huggingface`/FLUX & `gemini` (free) · `openai`/`replicate` (paid) |
+| **Image generation** | ✅ `gemini`/Imagen & `huggingface`/FLUX (free) · `pollinations` (free, no key) · `openai`/`replicate` (paid) |
 | Video / voice / lip-sync | ⏳ not yet wired |
 
-Runs fully offline with **no API keys**: the `local` planner writes a complete
-plan and the `mock` image engine writes real viewable placeholder images.
+Everything is **real** — there is no mock/placeholder path. You need at least a
+free Gemini key (planning), and images run best as a `gemini,pollinations`
+chain: Gemini quality with a no-key Pollinations backup.
 
 ## Quickstart
 
@@ -91,8 +92,8 @@ OPENAI_API_KEY=sk-...
 ```
 
 The Director asks the model for the plan as JSON and validates it against
-`ProductionPlanSchema`. If the model's output is invalid, it falls back to the
-offline plan so the pipeline never breaks.
+`ProductionPlanSchema`. If the model's output is invalid, it raises a clear
+error — there is no mock/canned fallback hiding failures.
 
 ## Architecture
 
@@ -100,16 +101,16 @@ offline plan so the pipeline never breaks.
 brief (text)
    │
    ▼
-AIDirector            asks a provider for a plan, validates it with Zod
-   │                  (falls back to a complete offline plan in dev)
+AIDirector            asks a REAL model (Gemini/OpenAI) for a plan, validates
+   │                  it with Zod (no mock fallback)
    ▼
 ProductionPlan        typed, validated: scenes, characters, camera, audio
    │
    ▼
-ProductionEngine      iterates scenes → (next) drives generation per scene
+ProductionEngine      iterates scenes → generates each scene's image
    │
    ▼
-AIProviderRouter      selects the engine by name: local | openai | (future) image/video engines
+Image engine chain    gemini → pollinations (fallback), configurable
 ```
 
 ## Layout
@@ -119,8 +120,10 @@ packages/
   ai/                 generic AI provider layer
     src/provider.ts        AIProvider interface + message/response types
     src/router.ts          AIProviderRouter (register/select by name)
-    src/development-provider.ts   offline provider (no key)
+    src/gemini-provider.ts        Gemini chat adapter (planning)
     src/openai-provider.ts        OpenAI chat adapter
+    src/*-image-provider.ts       gemini/imagen, huggingface, pollinations, openai, replicate
+    src/fallback-image-provider.ts  the engine chain (rotation + retry)
   types/
     src/production.ts   Zod schemas: ProductionPlan, Scene, Character, AudioPlan
 services/

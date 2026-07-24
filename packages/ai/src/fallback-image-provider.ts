@@ -38,6 +38,8 @@ export class FallbackImageProvider implements ImageProvider {
         } catch (error) {
           const message = error instanceof Error ? error.message : String(error);
           failures.push(`${provider.name} (try ${attempt}): ${message}`);
+          // Surface why an engine fell back, instead of hiding it.
+          console.log(`  image: "${provider.name}" failed (try ${attempt}) → ${message}`);
           if (attempt < this.attemptsPerProvider) {
             await sleep(1500);
           }

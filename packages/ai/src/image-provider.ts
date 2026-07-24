@@ -1,9 +1,10 @@
 /**
  * Image generation abstraction — the media counterpart to {@link AIProvider}.
  *
- * Any still-image engine (mock, OpenAI images, Replicate/Flux, fal, Stability,
- * or a self-hosted model) implements this one interface, so SKYRA can chase the
- * best photoreal quality by swapping engines, never by rewriting the pipeline.
+ * Any still-image engine (Gemini/Imagen, OpenAI images, Replicate/Flux,
+ * Hugging Face, Pollinations, or a self-hosted model) implements this one
+ * interface, so SKYRA can chase the best photoreal quality by swapping engines,
+ * never by rewriting the pipeline.
  */
 export interface ImageGenerationRequest {
   prompt: string;
